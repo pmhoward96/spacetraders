@@ -20,3 +20,17 @@ def dataframe_with_selections(df):
 
 def sessionStateCallback(name):
     st.session_state[name] = True
+
+def custom_object_list_to_df(object_list):
+    attributeList = []
+    for i in dir(object_list[0]):
+        if "__" not in i and not callable(getattr(object_list[0], i)):
+            attributeList.append(i)
+    objectListDic = []
+    for o in object_list:
+        objectDic = {}
+        for a in attributeList:
+            objectDic[a] = getattr(o, a)
+        objectListDic.append(objectDic)
+    df = pd.DataFrame(objectListDic)
+    return df

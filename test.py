@@ -1,0 +1,16 @@
+import util.sqlite_functions as sqf
+import sqlite3
+import pandas as pd
+import sqlalchemy as db
+import util.contracts as contracts
+import util.streamlit_util as stu
+import util.nav as nav
+import streamlit as st
+import matplotlib.pyplot as plt
+import plotly.express as px
+
+dbFile = "data/spaceTradersDb.db"
+token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZGVudGlmaWVyIjoiUFJFWTIiLCJ2ZXJzaW9uIjoidjIuMi4wIiwicmVzZXRfZGF0ZSI6IjIwMjQtMDYtMDkiLCJpYXQiOjE3MTg3NjIwMjUsInN1YiI6ImFnZW50LXRva2VuIn0.lGFQGUnyRBWfFhOH5WkPl4YBrOmW6egWrSnwpyMchWpy43TflcFmg-Sq3bUeRdieZxb8WKVNlQEy5h2KeTvc5x9RcH-V0pcuNZ3toMlvxuhCXfz_whikJAiLiksidiIsD146xIsUWnMW-fShC4TSN96yx4h7XMhNMS-eNbhLINfP_oazX4by3RDqtMdlix92HL2n-9EO8Ebo324L_09Fn93_kmMabtxSihkz8XLqQ0q3I-5ZUlEOXbKHuSiWz6tpl3IIBPrd6qzSI9FcXDdF-YgCxWb1GTXjvNyIp8oE3WihlmhRgd7QmPUREF3ww8CJRM6itaVd9eS-vKm2HBuTGQ"
+
+fig = nav.chart_entire_universe()
+st.plotly_chart(fig)

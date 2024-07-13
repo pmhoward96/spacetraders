@@ -1,7 +1,9 @@
 import sqlite3
-import pandas
+import pandas as pd
 
-def create_connection(dbFile):
+dbFile = "data/spaceTradersDb.db"
+
+def create_connection():
     """ create a database connection to a SQLite database """
     conn = None
     try:
@@ -16,8 +18,9 @@ def create_connection(dbFile):
 def close_connection(conn):
     conn.close()
 
-def create_table(dbFile, tableName, columns, primaryKey):
-    conn = create_connection(dbFile)
+def create_table(tableName, columns):
+    #columns is a list of list with [columnName, variableType]
+    conn = create_connection()
     cursor = conn.cursor()
     columnString = ""
     columnLen = len(columns)
@@ -36,8 +39,8 @@ def create_table(dbFile, tableName, columns, primaryKey):
         print(e)
     close_connection(conn)
 
-def insert_data(dbFile, tableName, cvDf):
-    conn = create_connection(dbFile)
+def insert_data(tableName, cvDf):
+    conn = create_connection()
     cursor = conn.cursor()
     columns = cvDf.columns
     valuesList = cvDf.values.tolist()
@@ -70,7 +73,22 @@ def insert_data(dbFile, tableName, cvDf):
         conn.commit()
         close_connection(conn)
     except Exception as e:
+        print(e)
         close_connection(conn)
         return e
     return True
+
+def get_all_values(tableName):
+    conn = create_connection()
+    cursor = conn.cursor()
+    query = "SELECT * from " + tableName
+    try:
+        df = pd.read_sql_query(query, con = conn)
+
+        close_connection(conn)
+    except Exception as e:
+        print(e)
+        close_connection(conn)
+        return e
+    return df
 

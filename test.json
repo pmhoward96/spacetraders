@@ -1,0 +1,61 @@
+{
+    "data": {
+        "systemSymbol": "X1-SJ46",
+        "symbol": "X1-SJ46-A1",
+        "type": "PLANET",
+        "x": -20,
+        "y": -16,
+        "orbitals": [
+            {
+                "symbol": "X1-SJ46-A3"
+            },
+            {
+                "symbol": "X1-SJ46-A2"
+            },
+            {
+                "symbol": "X1-SJ46-A4"
+            }
+        ],
+        "traits": [
+            {
+                "symbol": "VOLCANIC",
+                "name": "Volcanic",
+                "description": "A volatile world marked by intense volcanic activity, creating a hazardous environment with the potential for valuable resource extraction, such as rare metals and geothermal energy."
+            },
+            {
+                "symbol": "OUTPOST",
+                "name": "Outpost",
+                "description": "A small, remote settlement providing essential services and a safe haven for travelers passing through."
+            },
+            {
+                "symbol": "SALT_FLATS",
+                "name": "Salt Flats",
+                "description": "Expansive, barren plains covered in a thick layer of salt, offering unique opportunities for resource extraction, scientific research, and other activities."
+            },
+            {
+                "symbol": "SCARCE_LIFE",
+                "name": "Scarce Life",
+                "description": "A waypoint with sparse signs of life, often presenting unique challenges for survival and adaptation in a harsh environment."
+            },
+            {
+                "symbol": "THIN_ATMOSPHERE",
+                "name": "Thin Atmosphere",
+                "description": "A location with a sparse atmosphere, making it difficult to support life without specialized life-support systems."
+            },
+            {
+                "symbol": "MARKETPLACE",
+                "name": "Marketplace",
+                "description": "A thriving center of commerce where traders from across the galaxy gather to buy, sell, and exchange goods."
+            }
+        ],
+        "modifiers": [],
+        "chart": {
+            "submittedBy": "COSMIC",
+            "submittedOn": "2024-06-09T16: 24: 13.101Z"
+        },
+        "faction": {
+            "symbol": "COSMIC"
+        },
+        "isUnderConstruction": False
+    }
+}

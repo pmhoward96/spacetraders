@@ -4,48 +4,59 @@ import requests
 import streamlit as st
 import sys
 import util.agents as agents
+import util.contracts as contracts
+import util.nav as nav
+import util.ships as ships
 import util.streamlit_util as stu
 import sqlite3
 
-print(st.session_state)
+st.set_page_config(
+    page_title="SpaceTraders",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-urlFileLocation = "data/requests.json"
-with open(urlFileLocation) as file:
-    requestsJson = json.load(file)
-    file.close()
 
 st.title("Space Traders")
+
+###################################################
+#Streamlit Session State Keys 
+agentKey = "agent"
+if agentKey not in st.session_state:
+    st.session_state[agentKey] = ""
+
 
 with st.sidebar:
     st.title("Select Agent")
 
-    registerData = {
-        "symbol": "Prey_test"
-        , "faction": "COSMIC"
-    }
     #Get agents
-    agentsDf = agents.loadAgents()
-    st.selectbox("Select Agent", agentsDf)
+    agentsDf = agents.load_all_agents()
+    agentsList = agentsDf.symbol
+    agentSymbol = st.selectbox("Select Agent", agentsList)
+    if st.button("Load Agent"):
+        st.session_state[agentKey] = agents.Agent(agentsDf[agentsDf["symbol"] == agentSymbol].to_dict())
+
+st.header("Ships")
+shipsList = st.session_state[agentKey].get_ships()
+#print(shipsList)
+st.dataframe(stu.custom_object_list_to_df(shipsList))
+
+print("Ships Listing")
+chartShipList = []
+for s in shipsList:
+    tempS = s.get_ships_for_charting(st.session_state[agentKey].get_agent_token())
+    chartShipList.append(tempS)
     
-    if "registerAgentButton" not in st.session_state:
-        st.session_state["registerAgentButton"] = False
-    if "submitAgentRegisterButton" not in st.session_state:
-        st.session_state["submitAgentRegisterButton"] = False
 
-    if st.button("Register New Agent"):
-        if not st.session_state["registerAgentButton"]:
-            with st.form("New Agent"):
-                newAgent = st.text_input("Agent Name to Register")
-                factionList = agents.getFactionList()
-                faction = st.selectbox("Select Faction", factionList)
-                submitted = st.form_submit_button("Submit")
-                if submitted:
-                    print("submitted")
-                    response = agents.newAgent(newAgent, faction)
-        stu.sessionStateCallback("registerAgentButton")                
-    #print(dir(registerResponse))
-       # if 'error' in registerResponse.keys():
-           # print("Agent has already been registered", registerResponse['error']['data']['agentSymbol'])
-        #else:
-           # print(registerResponse['data'])
+st.header("Contracts")
+st.dataframe(stu.custom_object_list_to_df(st.session_state[agentKey].get_contracts()))
 
+systemSelection = nav.chart_entire_universe_with_selections(chartShipList)
+
+##print(systemSelection)
+shipyards = []
+for s in systemSelection:
+    shipyards.append(ships.find_shipyards(st.session_state[agentKey].get_agent_token(), s))
+
+shipyards = list(filter(lambda item: item is not None, shipyards))
+print(shipyards)
